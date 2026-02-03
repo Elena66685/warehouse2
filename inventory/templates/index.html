@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="mb-4">📝 Добавить выдачу канцтоваров</h2>
+
+        <form method="POST" action="{% url 'add_record' %}">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Сотрудник:</label>
+                <select name="employee" class="form-select" required>
+                    <option value="">Выберите сотрудника</option>
+                    {% for employee in employees %}
+                        <option value="{{ employee.id }}">{{ employee.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Канцтовары (можно выбрать несколько):</label>
+                <select name="supplies" class="form-select" multiple size="5" required>
+                    {% for supply in supplies %}
+                        <option value="{{ supply.id }}">{{ supply.name }}</option>
+                    {% endfor %}
+                </select>
+                <div class="form-text">Удерживайте Ctrl (Cmd на Mac) для выбора нескольких</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                ✅ Добавить выдачу
+            </button>
+        </form>
+
+        <div class="mt-4">
+            <a href="{% url 'records' %}" class="btn btn-outline-secondary">
+                📋 Перейти к просмотру записей
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
