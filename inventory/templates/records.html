@@ -3,7 +3,7 @@
 {% block content %}
 <div class="row">
     <div class="col-12">
-        <h2 class="mb-4">📋 Записи о выданных канцтоварах</h2>
+        <h2 class="mb-4">Записи о выданных канцтоварах</h2>
 
         <!-- Поиск -->
         <form method="GET" action="{% url 'records' %}" class="mb-4">
@@ -11,11 +11,11 @@
                 <input type="text" name="search" class="form-control"
                        placeholder="Поиск по сотруднику..." value="{{ search_query }}">
                 <button class="btn btn-outline-secondary" type="submit">
-                    🔍 Найти
+                    Найти
                 </button>
                 {% if search_query %}
                     <a href="{% url 'records' %}" class="btn btn-outline-danger">
-                        ❌ Сбросить
+                        Сбросить
                     </a>
                 {% endif %}
             </div>
@@ -57,7 +57,7 @@
 
         <div class="mt-4">
             <a href="{% url 'index' %}" class="btn btn-outline-primary">
-                📝 Вернуться к добавлению
+                Вернуться к добавлению
             </a>
         </div>
     </div>

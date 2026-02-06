@@ -17,19 +17,24 @@ def clear_data():
     EmployeeSupply.objects.all().delete()
     Employee.objects.all().delete()
     OfficeSupply.objects.all().delete()
-    print("🗑️  Старые данные удалены")
+    print("Старые данные удалены")
 
 
 def create_data():
     """Создание тестовых данных"""
-    print("📝 Создание тестовых данных...")
+    print("Создание тестовых данных...")
 
     # Создаем сотрудников
     employees = [
         "Иванов Иван",
         "Петрова Мария",
         "Сидоров Алексей",
-        "Козлова Анна"
+        "Козлова Анна",
+        "Тутина Елена",
+        "Костин Максим",
+        "Румянцев Игорь",
+        "Бочева Инга",
+        "Воеводин Станислав"
     ]
 
     employee_objects = {}
@@ -37,7 +42,7 @@ def create_data():
         obj, created = Employee.objects.get_or_create(name=name)
         employee_objects[name] = obj
         status = "создан" if created else "уже существует"
-        print(f"  👤 Сотрудник: {name} - {status}")
+        print(f"  Сотрудник: {name} - {status}")
 
     # Создаем канцтовары
     supplies = [
@@ -56,7 +61,7 @@ def create_data():
         obj, created = OfficeSupply.objects.get_or_create(name=name)
         supply_objects[name] = obj
         status = "создан" if created else "уже существует"
-        print(f"  📦 Канцтовар: {name} - {status}")
+        print(f"  Канцтовар: {name} - {status}")
 
     # Создаем несколько записей о выдаче
     issuances = [
@@ -74,14 +79,14 @@ def create_data():
                 employee=employee,
                 supply=supply
             )
-        print(f"  ✅ {emp_name} взял: {', '.join(supply_names)}")
+        print(f"  {emp_name} взял: {', '.join(supply_names)}")
 
     # Статистика
-    print("\n📊 Статистика:")
+    print("\nСтатистика:")
     print(f"  Всего сотрудников: {Employee.objects.count()}")
     print(f"  Всего канцтоваров: {OfficeSupply.objects.count()}")
     print(f"  Всего выдач: {EmployeeSupply.objects.count()}")
-    print("\n🎉 Тестовые данные успешно созданы!")
+    print("\nТестовые данные успешно созданы!")
 
 
 if __name__ == "__main__":
@@ -93,7 +98,7 @@ if __name__ == "__main__":
     create_data()
 
     # Проверим работу
-    print("\n🔍 Проверка данных:")
+    print("\nПроверка данных:")
     from django.db.models import Count
 
     for emp in Employee.objects.all():

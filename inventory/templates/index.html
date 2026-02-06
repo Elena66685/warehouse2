@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <h2 class="mb-4">📝 Добавить выдачу канцтоваров</h2>
+<div class="row">
+    <!-- Основная форма выдачи -->
+    <div class="col-md-8">
+        <h2 class="mb-4">Добавить выдачу канцтоваров</h2>
 
         <form method="POST" action="{% url 'add_record' %}">
             {% csrf_token %}
@@ -29,14 +30,60 @@
             </div>
 
             <button type="submit" class="btn btn-primary">
-                ✅ Добавить выдачу
+                Добавить выдачу
             </button>
         </form>
 
         <div class="mt-4">
             <a href="{% url 'records' %}" class="btn btn-outline-secondary">
-                📋 Перейти к просмотру записей
+                Перейти к просмотру записей
             </a>
+        </div>
+    </div>
+
+    <!-- Форма добавления нового сотрудника -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Добавить нового сотрудника</h5>
+
+                <form method="POST" action="{% url 'add_employee' %}">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        {{ form.name.label_tag }}
+                        {{ form.name }}
+
+                        {% if form.name.errors %}
+                            <div class="text-danger mt-1">
+                                {% for error in form.name.errors %}
+                                    <small>{{ error }}</small>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        {% if form.name.help_text %}
+                            <div class="form-text">{{ form.name.help_text }}</div>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="btn btn-success">
+                        Добавить сотрудника
+                    </button>
+                </form>
+
+                <!-- Список существующих сотрудников -->
+                <div class="mt-4">
+                    <h6>Существующие сотрудники:</h6>
+                    <ul class="list-group list-group-flush">
+                        {% for employee in employees %}
+                            <li class="list-group-item">{{ employee.name }}</li>
+                        {% empty %}
+                            <li class="list-group-item text-muted">Нет сотрудников</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>
