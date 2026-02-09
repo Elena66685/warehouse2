@@ -1,4 +1,5 @@
-# inventory/views.py
+from datetime import datetime
+
 from django.shortcuts import render, redirect
 from django.db.models import Q, Count
 from .models import Employee, OfficeSupply, EmployeeSupply
@@ -6,7 +7,7 @@ from .forms import EmployeeForm
 
 
 def index(request):
-    """Первый интерфейс - форма добавления"""
+    #первый интерфейс - форма добавления
     employees = Employee.objects.all()
     supplies = OfficeSupply.objects.all()
     form = EmployeeForm()
@@ -19,7 +20,7 @@ def index(request):
 
 
 def add_employee(request):
-    """Обработка формы добавления сотрудника"""
+    #обработка формы добавления сотрудника
     if request.method == 'POST':
         form = EmployeeForm(request.POST)
         if form.is_valid():
@@ -36,7 +37,7 @@ def add_employee(request):
 
 
 def add_record(request):
-    """Добавление записи о выдаче"""
+    #добавление записи о выдаче
     if request.method == 'POST':
         employee_id = request.POST.get('employee')
         supply_ids = request.POST.getlist('supplies')
@@ -51,24 +52,24 @@ def add_record(request):
 
 
 def records(request):
-    """Второй интерфейс - просмотр записей"""
-    search_query = request.GET.get('search', '').strip()  # Убираем пробелы
+    # второй интерфейс - просмотр записей
+    search_query = request.GET.get('search', '').strip()
     sort_by = request.GET.get('sort_by', '-taken_date')
 
-    # Базовый запрос
+    # общий запрос
     records_list = EmployeeSupply.objects.all()
 
-    # Поиск
+    # поиск
     if search_query:
         records_list = records_list.filter(
             Q(employee__name__icontains=search_query) |
             Q(supply__name__icontains=search_query)
         )
 
-    # Сортировка
+    # сортировка
     records_list = records_list.order_by(sort_by)
 
-    # Агрегирование
+    # агрегирование
     total_records = records_list.count()
     supplies_count = records_list.values('supply').distinct().count()
     employees_count = records_list.values('employee').distinct().count()

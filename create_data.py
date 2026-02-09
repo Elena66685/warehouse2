@@ -1,9 +1,8 @@
-# create_data.py
 import os
 import sys
 import django
 
-# Настройка Django
+# настройка Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'warehouse2.settings')
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
@@ -13,7 +12,7 @@ from inventory.models import Employee, OfficeSupply, EmployeeSupply
 
 
 def clear_data():
-    """Очистка всех данных (опционально)"""
+    #Очистка всех данных
     EmployeeSupply.objects.all().delete()
     Employee.objects.all().delete()
     OfficeSupply.objects.all().delete()
@@ -21,7 +20,6 @@ def clear_data():
 
 
 def create_data():
-    """Создание тестовых данных"""
     print("Создание тестовых данных...")
 
     # Создаем сотрудников
@@ -44,7 +42,7 @@ def create_data():
         status = "создан" if created else "уже существует"
         print(f"  Сотрудник: {name} - {status}")
 
-    # Создаем канцтовары
+    # создаем канцтовары
     supplies = [
         "Ручка шариковая",
         "Блокнот А4",
@@ -63,7 +61,7 @@ def create_data():
         status = "создан" if created else "уже существует"
         print(f"  Канцтовар: {name} - {status}")
 
-    # Создаем несколько записей о выдаче
+    # создаем записи о выдаче
     issuances = [
         ("Иванов Иван", ["Ручка шариковая", "Блокнот А4", "Карандаш"]),
         ("Петрова Мария", ["Степлер", "Скрепки", "Линейка"]),
@@ -81,7 +79,7 @@ def create_data():
             )
         print(f"  {emp_name} взял: {', '.join(supply_names)}")
 
-    # Статистика
+    # статистика
     print("\nСтатистика:")
     print(f"  Всего сотрудников: {Employee.objects.count()}")
     print(f"  Всего канцтоваров: {OfficeSupply.objects.count()}")
